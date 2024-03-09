@@ -1,25 +1,37 @@
 "use client";
 
-import {Dispatch, MouseEventHandler, SetStateAction, useState} from "react";
+import {Dispatch, MouseEventHandler, SetStateAction, useCallback, useState} from "react";
 
 type Func = (curr: number) => void;
 
-export default function Counter() {
+export default function Counter({name}: {name: string}) {
   const [value, setValue] = useState(0);
 
-  const handle = (curr: number) => {
+  const handle = useCallback((curr: number) => {
     setValue((state) => state + curr);
-  };
+  }, []);
 
   return (
-    <div className="flex max-w-full gap-4">
-      <Button handle={handle} num={-10} />
-      <Button handle={handle} num={-5} />
-      <Button handle={handle} num={-1} />
-      <input type="number" value={value} onChange={(e) => setValue(parseInt(e.target.value))} />
-      <Button handle={handle} num={1} />
-      <Button handle={handle} num={5} />
-      <Button handle={handle} num={10} />
+    <div className="grid max-w-full grid-cols-[1fr,auto,1fr] gap-4">
+      <div className="flex flex-wrap gap-4 justify-center">
+        <Button handle={handle} num={-10} />
+        <Button handle={handle} num={-5} />
+        <Button handle={handle} num={-1} />
+      </div>
+      <div className="flex flex-col">
+        <label>{name}</label>
+        <input
+          className="max-w-24 px-4 py-2"
+          type="number"
+          value={value}
+          onChange={(e) => setValue(parseInt(e.target.value))}
+        />
+      </div>
+      <div className="flex flex-wrap gap-4 justify-center">
+        <Button handle={handle} num={1} />
+        <Button handle={handle} num={5} />
+        <Button handle={handle} num={10} />
+      </div>
     </div>
   );
 }
@@ -27,7 +39,7 @@ export default function Counter() {
 function Button({handle, num}: {handle: Func; num: number}) {
   return (
     <button
-      className={`rounded-lg px-4 py-2 text-center ${num < 0 ? "bg-red-500" : "bg-green-400"}`}
+      className={`mt-2 rounded-lg px-4 py-2 text-center ${num < 0 ? "bg-red-500" : "bg-green-400"}`}
       type="button"
       onClick={() => handle(num)}
     >
