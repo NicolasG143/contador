@@ -14,16 +14,19 @@ export default function Players() {
   };
 
   return (
-    <section>
-      <div>
-        <input placeholder="Nombre..." type="text" onChange={(e) => setValue(e.target.value)} />
-        <button type="button" onClick={handleClick}>Agregar</button>
+    <section className="flex  flex-col gap-4">
+      <div className="flex gap-4">
+        <input placeholder="Nombre..." value={value} className="pl-2" type="text" onChange={(e) => setValue(e.target.value)} />
+        <button type="button" className="px-4 py-2 text-center bg-zinc-700" onClick={handleClick}>Agregar</button>
       </div>
+      <div className="flex flex-col gap-4">
+
       {players.map((player, idx) => (
-        <div key={player}>
+        <div className="playerdiv rounded-lg" key={player}>
           <Counter name={player} />
         </div>
       ))}
+      </div>
     </section>
   );
 }

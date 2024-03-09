@@ -7,3 +7,11 @@
   color: CanvasText;
   background-color: Canvas;
 }
+
+.playerdiv:nth-child(even) {
+  @apply bg-zinc-600
+}
+
+.playerdiv:nth-child(odd) {
+    @apply bg-zinc-800
+}
