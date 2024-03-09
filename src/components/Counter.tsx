@@ -12,7 +12,7 @@ export default function Counter() {
   };
 
   return (
-    <div>
+    <div className="flex gap-4">
       <Button handle={handle} num={-10} />
       <Button handle={handle} num={-5} />
       <Button handle={handle} num={-1} />
@@ -25,5 +25,13 @@ export default function Counter() {
 }
 
 function Button({handle, num}: {handle: Func; num: number}) {
-  return <button onClick={() => handle(num)}>{num}</button>;
+  return (
+    <button
+      className={`rounded-lg px-4 py-2 text-center ${num < 0 ? "bg-red-500" : "bg-green-400"}`}
+      type="button"
+      onClick={() => handle(num)}
+    >
+      {num}
+    </button>
+  );
 }
