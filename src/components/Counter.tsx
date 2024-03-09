@@ -12,7 +12,7 @@ export default function Counter() {
   };
 
   return (
-    <div className="flex gap-4">
+    <div className="flex max-w-full gap-4">
       <Button handle={handle} num={-10} />
       <Button handle={handle} num={-5} />
       <Button handle={handle} num={-1} />
