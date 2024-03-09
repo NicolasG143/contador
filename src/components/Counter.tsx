@@ -12,7 +12,7 @@ export default function Counter({name}: {name: string}) {
   }, []);
 
   return (
-    <div className="grid max-w-full grid-cols-[1fr,auto,1fr] gap-4">
+    <div className="grid max-w-full grid-cols-[auto,auto,auto] gap-4">
       <div className="flex flex-wrap justify-center gap-4">
         <Button handle={handle} num={-10} />
         <Button handle={handle} num={-5} />
