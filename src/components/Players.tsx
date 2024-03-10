@@ -1,31 +1,54 @@
 "use client";
 
-import {useRef, useState} from "react";
+import {useEffect, useState} from "react";
 
 import Counter from "./Counter";
 
+export interface Player {
+  name: string;
+  points: number;
+}
+
 export default function Players() {
-  const [players, setPlayers] = useState<string[]>([]);
+  const [players, setPlayers] = useState<Player[] | []>([]);
   const [value, setValue] = useState<string>("");
 
   const handleClick = () => {
-    setPlayers([...players, value]);
+    const object = {name: value, points: 0};
+
+    const newPlayers = players ? [...players, object] : [object]; // eslint-disable-line @typescript-eslint/no-unnecessary-condition
+
+    setPlayers(newPlayers);
     setValue("");
+    window.localStorage.setItem("players", JSON.stringify(newPlayers));
   };
+
+  useEffect(() => {
+    setPlayers(JSON.parse(window.localStorage.getItem("players")!) as Player[]);
+  }, []);
 
   return (
     <section className="flex  flex-col gap-4">
       <div className="flex gap-4">
-        <input placeholder="Nombre..." value={value} className="pl-2" type="text" onChange={(e) => setValue(e.target.value)} />
-        <button type="button" className="px-4 py-2 text-center bg-zinc-700" onClick={handleClick}>Agregar</button>
+        <input
+          className="pl-2"
+          placeholder="Nombre..."
+          type="text"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+        <button className="bg-zinc-700 px-4 py-2 text-center" type="button" onClick={handleClick}>
+          Agregar
+        </button>
       </div>
       <div className="flex flex-col gap-4">
-
-      {players.map((player, idx) => (
-        <div className="playerdiv rounded-lg" key={player}>
-          <Counter name={player} />
-        </div>
-      ))}
+        {players // eslint-disable-line @typescript-eslint/no-unnecessary-condition
+          ? players.map((player) => (
+              <div key={player.name} className="playerdiv rounded-lg">
+                <Counter player={player} />
+              </div>
+            ))
+          : null}
       </div>
     </section>
   );
