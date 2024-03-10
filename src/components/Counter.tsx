@@ -6,7 +6,13 @@ import {useCallback, useState} from "react";
 
 type Func = (curr: number) => void;
 
-export default function Counter({player}: {player: {name: string; points: number}}) {
+export default function Counter({
+  player,
+  handleDelete,
+}: {
+  player: {name: string; points: number};
+  handleDelete: (name: string) => void;
+}) {
   const [value, setValue] = useState(player.points);
 
   const handle = useCallback((curr: number) => {
@@ -18,9 +24,18 @@ export default function Counter({player}: {player: {name: string; points: number
   };
 
   return (
-    <div className="grid max-w-full grid-rows-2 gap-4 px-4 py-2">
-      <div className="flex flex-col text-center">
-        <label>{player.name}</label>
+    <div className="grid h-fit max-w-full grid-rows-2 gap-4 px-4 py-2">
+      <div className="flex flex-col">
+        <div className="grid grid-cols-[1fr,auto] items-center">
+          <label className="align-center pl-10 text-center">{player.name}</label>
+          <button
+            className="align-center cursor-pointer bg-red-500 px-4 py-2 text-xl"
+            type="button"
+            onClick={() => handleDelete(player.name)}
+          >
+            X
+          </button>
+        </div>
         <input className="px-4 py-2 text-center" type="number" value={value} onChange={onChange} />
       </div>
       <div className="flex flex-1 flex-grow justify-center gap-4">
@@ -38,7 +53,7 @@ export default function Counter({player}: {player: {name: string; points: number
 function Button({handle, num}: {handle: Func; num: number}) {
   return (
     <button
-      className={`mt-2 flex-1 flex-grow rounded-lg px-4 py-2 text-center ${num < 0 ? "bg-red-500" : "bg-green-400"}`}
+      className={`mt-2 h-fit flex-1 flex-grow rounded-lg px-4 py-2 text-center ${num < 0 ? "bg-red-500" : "bg-green-400"}`}
       type="button"
       onClick={() => handle(num)}
     >

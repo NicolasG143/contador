@@ -9,6 +9,10 @@ export interface Player {
   points: number;
 }
 
+const updatePlayers = (players: Player[]) => {
+  window.localStorage.setItem("players", JSON.stringify(players));
+};
+
 export default function Players() {
   const [players, setPlayers] = useState<Player[] | []>([]);
   const [value, setValue] = useState<string>("");
@@ -20,7 +24,14 @@ export default function Players() {
 
     setPlayers(newPlayers);
     setValue("");
-    window.localStorage.setItem("players", JSON.stringify(newPlayers));
+    updatePlayers(newPlayers);
+  };
+
+  const handleDelete = (name: string) => {
+    const newPlayers = players.filter((player) => player.name !== name);
+
+    updatePlayers(newPlayers);
+    setPlayers(newPlayers);
   };
 
   useEffect(() => {
@@ -45,7 +56,7 @@ export default function Players() {
         {players // eslint-disable-line @typescript-eslint/no-unnecessary-condition
           ? players.map((player) => (
               <div key={player.name} className="playerdiv rounded-lg">
-                <Counter player={player} />
+                <Counter handleDelete={handleDelete} player={player} />
               </div>
             ))
           : null}
