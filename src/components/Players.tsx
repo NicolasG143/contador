@@ -46,6 +46,7 @@ export default function Players() {
       <div className="flex gap-4">
         <input
           className="rounded-lg pl-2"
+          maxLength={16}
           placeholder="Nombre..."
           type="text"
           value={value}
