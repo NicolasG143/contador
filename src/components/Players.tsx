@@ -1,6 +1,7 @@
 "use client";
 
 import {useEffect, useState} from "react";
+import {AnimatePresence, motion} from "framer-motion";
 
 import Counter from "./Counter";
 
@@ -22,6 +23,8 @@ export default function Players() {
 
     const newPlayers = players ? [...players, object] : [object]; // eslint-disable-line @typescript-eslint/no-unnecessary-condition
 
+    if (players.find((player) => player.name === value) || !value) return;
+
     setPlayers(newPlayers);
     setValue("");
     updatePlayers(newPlayers);
@@ -39,27 +42,40 @@ export default function Players() {
   }, []);
 
   return (
-    <section className="flex  flex-col gap-4">
+    <section className="flex flex-col gap-4">
       <div className="flex gap-4">
         <input
-          className="pl-2"
+          className="rounded-lg pl-2"
           placeholder="Nombre..."
           type="text"
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />
-        <button className="bg-zinc-700 px-4 py-2 text-center" type="button" onClick={handleClick}>
+        <button
+          className="rounded-lg bg-zinc-700 px-4 py-2 text-center"
+          type="button"
+          onClick={handleClick}
+        >
           Agregar
         </button>
       </div>
       <div className="flex flex-col gap-4">
-        {players // eslint-disable-line @typescript-eslint/no-unnecessary-condition
-          ? players.map((player) => (
-              <div key={player.name} className="playerdiv rounded-lg">
-                <Counter handleDelete={handleDelete} player={player} />
-              </div>
-            ))
-          : null}
+        <AnimatePresence>
+          {players // eslint-disable-line @typescript-eslint/no-unnecessary-condition
+            ? players.map((player) => (
+                <motion.div
+                  key={player.name}
+                  animate={{opacity: 1, height: "auto"}} // Animate to its natural height
+                  className="playerdiv overflow-hidden rounded-lg transition-colors"
+                  exit={{opacity: 0, height: 0}} // Shrink to 0 height on exit
+                  initial={{opacity: 0, height: "auto"}} // Start hidden with 0 height
+                  transition={{duration: 0.25}}
+                >
+                  <Counter handleDelete={handleDelete} player={player} />
+                </motion.div>
+              ))
+            : null}
+        </AnimatePresence>
       </div>
     </section>
   );

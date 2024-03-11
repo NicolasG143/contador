@@ -24,7 +24,7 @@ export default function Counter({
   };
 
   return (
-    <div className="grid h-fit max-w-full grid-rows-2 gap-4 px-4 py-2">
+    <div className="grid max-w-full grid-rows-2 gap-4 px-4 py-2">
       <div className="flex flex-col">
         <div className="grid grid-cols-[1fr,auto] items-center">
           <label className="align-center pl-10 text-center">{player.name}</label>

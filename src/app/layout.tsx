@@ -12,14 +12,11 @@ export const metadata: Metadata = {
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en">
-      <body className="dark container m-auto grid min-h-screen grid-rows-[auto,1fr,auto] bg-background max-w-[400px] px-4 font-sans antialiased">
-        <header className="text-xl font-bold leading-[4rem]">
+      <body className="bg-background dark container m-auto grid min-h-screen max-w-[400px] grid-rows-[auto,1fr] overflow-y-scroll font-sans antialiased">
+        <header className="px-4 text-xl font-bold leading-[4rem]">
           <Link href="/">contador</Link>
         </header>
-        <main className="py-8">{children}</main>
-        <footer className="text-center leading-[4rem] opacity-70">
-          © {new Date().getFullYear()} contador
-        </footer>
+        <main className="px-4 py-8">{children}</main>
       </body>
     </html>
   );
